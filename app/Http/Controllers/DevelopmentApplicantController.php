@@ -36,7 +36,7 @@ class DevelopmentApplicantController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil mengambil data pendaftar development',
+                'Berhasil mengambil data pendaftar pembangunan',
                 DevelopmentApplicantResource::collection($developmentApplicants),
                 200
             );
@@ -71,7 +71,7 @@ class DevelopmentApplicantController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Data Development Berhasil Diambil',
+                'Data pembangunan Berhasil Diambil',
                 new PaginatedResource($developmentApplicants, DevelopmentApplicantResource::class),
                 200
             );
@@ -97,7 +97,7 @@ class DevelopmentApplicantController extends Controller
             $developmentApplicant = $this->developmentApplicantRepository->create($request);
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil menambahkan data pendaftar development',
+                'Berhasil menambahkan data pendaftar pembangunan',
                 new DevelopmentApplicantResource($developmentApplicant),
                 201
             );
@@ -124,7 +124,7 @@ class DevelopmentApplicantController extends Controller
             if (!$developmentApplicant) {
                 return ResponseHelper::jsonResponse(
                     false,
-                    'Data pendaftar development tidak ditemukan',
+                    'Data pendaftar pembangunan tidak ditemukan',
                     null,
                     404
                 );
@@ -132,7 +132,7 @@ class DevelopmentApplicantController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil mengambil data pendaftar development',
+                'Berhasil mengambil data pendaftar pembangunan',
                 new DevelopmentApplicantResource($developmentApplicant),
                 200
             );
@@ -160,7 +160,7 @@ class DevelopmentApplicantController extends Controller
             if (!$developmentApplicant) {
                 return ResponseHelper::jsonResponse(
                     false,
-                    'Data pendaftar development tidak ditemukan',
+                    'Data pendaftar pembangunan tidak ditemukan',
                     null,
                     404
                 );
@@ -168,7 +168,7 @@ class DevelopmentApplicantController extends Controller
             $developmentApplicant = $this->developmentApplicantRepository->update($id, $request);
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil memperbarui data pendaftar development',
+                'Berhasil memperbarui data pendaftar pembangunan',
                 new DevelopmentApplicantResource($developmentApplicant),
                 200
             );
@@ -195,7 +195,7 @@ class DevelopmentApplicantController extends Controller
             if (!$developmentApplicant) {
                 return ResponseHelper::jsonResponse(
                     false,
-                    'Data pendaftar development tidak ditemukan',
+                    'Data pendaftar pembangunan tidak ditemukan',
                     null,
                     404
                 );
@@ -205,7 +205,7 @@ class DevelopmentApplicantController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil menghapus data pendaftar development',
+                'Berhasil menghapus data pendaftar pembangunan',
                 new DevelopmentApplicantResource($developmentApplicant),
                 200
             );

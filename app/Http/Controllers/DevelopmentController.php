@@ -37,7 +37,7 @@ class DevelopmentController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil mengambil data development',
+                'Berhasil mengambil data pembangunan',
                 DevelopmentResource::collection($development),
                 200
             );
@@ -72,7 +72,7 @@ class DevelopmentController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Data Development Berhasil Diambil',
+                'Data pembangunan Berhasil Diambil',
                 new PaginatedResource($developments, DevelopmentResource::class),
                 200
             );
@@ -100,7 +100,7 @@ class DevelopmentController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil menambahkan data development',
+                'Berhasil menambahkan data pembangunan',
                 new DevelopmentResource($development),
                 201
             );
@@ -126,7 +126,7 @@ class DevelopmentController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil mengambil data development',
+                'Berhasil mengambil data pembangunan',
                 new DevelopmentResource($development),
                 200
             );
@@ -155,7 +155,7 @@ class DevelopmentController extends Controller
             if (!$development) {
                 return ResponseHelper::jsonResponse(
                     false,
-                    'Data development tidak ditemukan',
+                    'Data pembangunan tidak ditemukan',
                     null,
                     404
                 );
@@ -165,7 +165,7 @@ class DevelopmentController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil memperbarui data development',
+                'Berhasil memperbarui data pembangunan',
                 new DevelopmentResource($development),
                 200
             );
@@ -192,7 +192,7 @@ class DevelopmentController extends Controller
             if (!$development) {
                 return ResponseHelper::jsonResponse(
                     false,
-                    'Data development tidak ditemukan',
+                    'Data pembangunan tidak ditemukan',
                     null,
                     404
                 );
@@ -202,7 +202,7 @@ class DevelopmentController extends Controller
 
             return ResponseHelper::jsonResponse(
                 true,
-                'Berhasil menghapus data development',
+                'Berhasil menghapus data pembangunan',
                 null,
                 204
             );

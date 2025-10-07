@@ -9,6 +9,7 @@ use App\Http\Controllers\HeadOfFamilyController;
 use App\Http\Controllers\SocialAssistanceController;
 use App\Http\Controllers\SocialAssistanceRecipientController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VillageProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class);
@@ -37,3 +38,5 @@ Route::get('developments/all/paginated', [DevelopmentController::class, 'getAllP
 
 Route::apiResource('development-applicants', DevelopmentApplicantController::class);
 Route::get('development-applicants/all/paginated', [DevelopmentApplicantController::class, 'getAllPaginated']);
+
+Route::apiResource('village-profiles', VillageProfileController::class)->only(['index', 'store', 'update']);
