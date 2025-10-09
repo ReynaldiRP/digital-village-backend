@@ -10,15 +10,28 @@ use App\Http\Resources\PaginatedResource;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-class HeadOfFamilyController extends Controller
+class HeadOfFamilyController extends Controller implements HasMiddleware
 {
     private HeadOfFamilyRepositoryInterface $headOfFamilyRepository;
 
     public function __construct(HeadOfFamilyRepositoryInterface $headOfFamilyRepository)
     {
         $this->headOfFamilyRepository = $headOfFamilyRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['head-of-family-read|head-of-family-create|head-of-family-update|head-of-family-delete']), only: ['index', 'show', 'getAllPaginated']),
+            new Middleware(PermissionMiddleware::using(['head-of-family-create']), only: ['store']),
+            new Middleware(PermissionMiddleware::using(['head-of-family-update']), only: ['update']),
+            new Middleware(PermissionMiddleware::using(['head-of-family-delete']), only: ['destroy']),
+        ];
     }
 
     /**

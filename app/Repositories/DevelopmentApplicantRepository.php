@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\DevelopmentApplicantRepositoryInterface;
 use App\Models\DevelopmentApplicant;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryInterface
@@ -12,7 +14,7 @@ class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryIn
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         try {
             $query = DevelopmentApplicant::where(function ($query) use ($search) {
                 if ($search) {
@@ -37,7 +39,7 @@ class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryIn
     public function getAllPaginated(
         ?string $search,
         int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         try {
             $query = $this->getAll(
                 $search,
@@ -53,7 +55,7 @@ class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryIn
 
     public function getById(
         string $id
-    ) {
+    ): ?DevelopmentApplicant {
         try {
             $query = DevelopmentApplicant::where('id', $id);
             return $query->first();
@@ -64,7 +66,7 @@ class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryIn
 
     public function create(
         array $data
-    ) {
+    ): DevelopmentApplicant {
         DB::beginTransaction();
         try {
             $developmentApplicant = new DevelopmentApplicant();
@@ -84,7 +86,7 @@ class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryIn
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?DevelopmentApplicant {
         DB::beginTransaction();
         try {
             $developmentApplicant = DevelopmentApplicant::find($id);
@@ -104,7 +106,7 @@ class DevelopmentApplicantRepository implements DevelopmentApplicantRepositoryIn
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
         try {
             $developmentApplicant = DevelopmentApplicant::find($id);

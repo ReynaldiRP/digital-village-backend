@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
 use App\Models\HeadOfFamily;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +16,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         $query = HeadOfFamily::where(function ($query) use ($search) {
             // Apply search filter if provided
             if ($search) {
@@ -39,7 +41,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         ?int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         $query = $this->getAll(
             $search,
             $rowPerPage,
@@ -51,7 +53,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?HeadOfFamily {
         $query = HeadOfFamily::where('id', $id);
 
         return $query->first();
@@ -59,12 +61,21 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): HeadOfFamily {
         DB::beginTransaction();
 
         try {
+            $userRepository = new UserRepository();
+
+            $user = $userRepository->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+            ])->assignRole('head-of-family');
+
+
             $headOfFamily = new HeadOfFamily();
-            $headOfFamily->user_id = $data['user_id'];
+            $headOfFamily->user_id = $user->id;
             $headOfFamily->profile_picture = $data['profile_picture']->store('assets/head-of-families', 'public');
             $headOfFamily->identify_number = $data['identify_number'];
             $headOfFamily->gender = $data['gender'];
@@ -86,7 +97,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?HeadOfFamily {
         DB::beginTransaction();
 
         try {
@@ -123,7 +134,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {

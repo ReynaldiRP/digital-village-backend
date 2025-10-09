@@ -5,6 +5,9 @@ namespace App\Repositories;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
@@ -13,7 +16,7 @@ class UserRepository implements UserRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         $query = User::where(function ($query) use ($search) {
             // Apply search filter if provided
             if ($search) {
@@ -36,7 +39,7 @@ class UserRepository implements UserRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         ?int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         $query = $this->getAll(
             $search,
             $rowPerPage,
@@ -48,7 +51,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?User {
         $query = User::where('id', $id);
 
         return $query->first();
@@ -56,7 +59,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): User {
         DB::beginTransaction();
 
         try {
@@ -79,7 +82,7 @@ class UserRepository implements UserRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?User {
         DB::beginTransaction();
 
         try {
@@ -106,7 +109,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {

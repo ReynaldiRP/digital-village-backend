@@ -4,8 +4,9 @@ namespace App\Repositories;
 
 use App\Interfaces\FamilyMemberRepositoryInterface;
 use App\Models\FamilyMember;
-use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +16,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         $query = FamilyMember::where(function ($query) use ($search) {
             // Apply search filter if provided
             if ($search) {
@@ -40,7 +41,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         ?int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         $query = $this->getAll(
             $search,
             $rowPerPage,
@@ -52,7 +53,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?FamilyMember {
         $query = FamilyMember::where('id', $id)->with('headOfFamily');
 
         return $query->first();
@@ -60,7 +61,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): FamilyMember {
         DB::beginTransaction();
 
         try {
@@ -99,7 +100,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?FamilyMember {
         DB::beginTransaction();
 
         try {
@@ -138,7 +139,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {

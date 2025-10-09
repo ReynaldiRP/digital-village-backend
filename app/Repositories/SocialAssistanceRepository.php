@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Interfaces\SocialAssistanceRepositoryInterface;
 use App\Models\SocialAssistance;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +16,7 @@ class SocialAssistanceRepository implements SocialAssistanceRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         $query = SocialAssistance::where(function ($query) use ($search) {
             if ($search) {
                 $query->search($search);
@@ -39,7 +41,7 @@ class SocialAssistanceRepository implements SocialAssistanceRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         ?int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         $query = $this->getAll(
             $search,
             $rowPerPage,
@@ -51,7 +53,7 @@ class SocialAssistanceRepository implements SocialAssistanceRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?SocialAssistance {
         $query = SocialAssistance::where('id', $id);
 
         return $query->first();
@@ -59,7 +61,7 @@ class SocialAssistanceRepository implements SocialAssistanceRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): SocialAssistance {
         DB::beginTransaction();
 
         try {
@@ -86,7 +88,7 @@ class SocialAssistanceRepository implements SocialAssistanceRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?SocialAssistance {
         DB::beginTransaction();
 
         try {
@@ -121,7 +123,7 @@ class SocialAssistanceRepository implements SocialAssistanceRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {

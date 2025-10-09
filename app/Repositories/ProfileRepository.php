@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
-    public function get()
+    public function get(): ?object
     {
         return Profile::first();
     }
 
     public function create(
         array $data
-    ) {
+    ): object {
         DB::beginTransaction();
 
         try {
@@ -51,7 +51,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
     public function update(
         array $data
-    ) {
+    ): ?object {
         DB::beginTransaction();
 
         try {
@@ -67,7 +67,7 @@ class ProfileRepository implements ProfileRepositoryInterface
             $profile->agricultural_area = $data['agricultural_area'];
             $profile->total_area = $data['total_area'];
 
-            $profile->save();`
+            $profile->save();
 
             if (array_key_exists('profile_images', $data)) {
                 foreach ($data['profile_images'] as $image) {

@@ -10,14 +10,27 @@ use App\Http\Resources\SocialAssistanceResource;
 use App\Interfaces\SocialAssistanceRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-class SocialAssistanceController extends Controller
+class SocialAssistanceController extends Controller implements HasMiddleware
 {
     private SocialAssistanceRepositoryInterface $socialAssistanceRepository;
 
     public function __construct(SocialAssistanceRepositoryInterface $socialAssistanceRepository)
     {
         $this->socialAssistanceRepository = $socialAssistanceRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['social-assistance-read|social-assistance-create|social-assistance-update|social-assistance-delete']), only: ['index', 'show', 'getAllPaginated']),
+            new Middleware(PermissionMiddleware::using(['social-assistance-create']), only: ['store']),
+            new Middleware(PermissionMiddleware::using(['social-assistance-update']), only: ['update']),
+            new Middleware(PermissionMiddleware::using(['social-assistance-delete']), only: ['destroy']),
+        ];
     }
 
 

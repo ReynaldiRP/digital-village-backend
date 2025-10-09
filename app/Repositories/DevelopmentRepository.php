@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\DevelopmentRepositoryInterface;
 use App\Models\Development;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,7 +15,7 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         try {
             $query = Development::where(function ($query) use ($search) {
                 if ($search) {
@@ -38,7 +40,7 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         try {
             $query = $this->getAll(
                 $search,
@@ -54,7 +56,7 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?Development {
         try {
             $query = Development::where('id', $id);
             return $query->first();
@@ -65,7 +67,7 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): Development {
         DB::beginTransaction();
         try {
             $development = new Development();
@@ -90,7 +92,7 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?Development {
         DB::beginTransaction();
 
         try {
@@ -122,7 +124,7 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
         try {
             $development = Development::find($id);

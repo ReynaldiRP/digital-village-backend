@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Interfaces\EventParticipantRepositoryInterface;
 use App\Models\Event;
 use App\Models\EventParticipant;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class EventParticipantRepository implements EventParticipantRepositoryInterface
@@ -13,7 +15,7 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         try {
             $query = EventParticipant::where(function ($query) use ($search) {
                 if ($search) {
@@ -38,7 +40,7 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         try {
             $query = $this->getAll(
                 $search,
@@ -54,7 +56,7 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?EventParticipant {
         $query = EventParticipant::where('id', $id);
 
         return $query->first();
@@ -62,7 +64,7 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): EventParticipant {
         DB::beginTransaction();
 
         try {
@@ -89,7 +91,7 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?EventParticipant {
         DB::beginTransaction();
 
         try {
@@ -115,7 +117,7 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {

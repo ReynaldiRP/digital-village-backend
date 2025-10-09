@@ -6,6 +6,8 @@ use App\Interfaces\SocialAssistanceRecipientRepositoryInterface;
 use App\Models\SocialAssistance;
 use App\Models\SocialAssistanceRecipient;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +17,7 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         $query = SocialAssistanceRecipient::where(function ($query) use ($search) {
             // Apply search filter if provided
             if ($search) {
@@ -40,7 +42,7 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
     public function getAllPaginated(
         ?string $search,
         ?int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         $query = $this->getAll(
             $search,
             $rowPerPage,
@@ -52,7 +54,7 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
 
     public function getById(
         string $id
-    ) {
+    ): ?SocialAssistanceRecipient {
         $query = SocialAssistanceRecipient::where('id', $id);
 
         return $query->first();
@@ -60,7 +62,7 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
 
     public function create(
         array $data
-    ) {
+    ): SocialAssistanceRecipient {
         DB::beginTransaction();
 
         try {
@@ -90,7 +92,7 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?SocialAssistanceRecipient {
         DB::beginTransaction();
 
         try {
@@ -124,7 +126,7 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {

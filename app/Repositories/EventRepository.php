@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\EventRepositoryInterface;
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,7 +15,7 @@ class EventRepository implements EventRepositoryInterface
         ?string $search,
         ?int $limit,
         bool $execute
-    ) {
+    ): Collection {
         try {
             $query = Event::where(function ($query) use ($search) {
                 if ($search) {
@@ -38,7 +40,7 @@ class EventRepository implements EventRepositoryInterface
     public function getAllPaginated(
         ?string $search,
         int $rowPerPage
-    ) {
+    ): LengthAwarePaginator {
         try {
             $query = $this->getAll(
                 $search,
@@ -54,7 +56,7 @@ class EventRepository implements EventRepositoryInterface
 
     public function getById(
         string $id
-    ) {
+    ): ?Event {
         $query = Event::where('id', $id);
 
         return $query->first();
@@ -62,7 +64,7 @@ class EventRepository implements EventRepositoryInterface
 
     public function create(
         array $data
-    ) {
+    ): Event {
         DB::beginTransaction();
 
         try {
@@ -88,7 +90,7 @@ class EventRepository implements EventRepositoryInterface
     public function update(
         string $id,
         array $data
-    ) {
+    ): ?Event {
         DB::beginTransaction();
 
         try {
@@ -120,7 +122,7 @@ class EventRepository implements EventRepositoryInterface
 
     public function delete(
         string $id
-    ) {
+    ): bool {
         DB::beginTransaction();
 
         try {
@@ -128,9 +130,12 @@ class EventRepository implements EventRepositoryInterface
             if ($event->thumbnail && Storage::disk('public')->exists($event->thumbnail)) {
                 Storage::disk('public')->delete($event->thumbnail);
             }
+
             $event->delete();
 
             DB::commit();
+
+            return true;
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage());
