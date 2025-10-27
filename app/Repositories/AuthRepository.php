@@ -14,7 +14,7 @@ class AuthRepository implements AuthRepositoryInterface
         if (!Auth::guard('web')->attempt($data)) {
             return response([
                 'success' => false,
-                'message' => 'Unauthorized',
+                'message' => 'Invalid credentials',
             ], 401);
         }
 
@@ -50,7 +50,7 @@ class AuthRepository implements AuthRepositoryInterface
 
             return response()->json([
                 'success' => true,
-                'data' => [
+                'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
