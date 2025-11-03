@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\UserAgeHelper;
 use App\Interfaces\DashboardRepositoryInterface;
 use App\Models\Development;
 use App\Models\DevelopmentApplicant;
@@ -10,6 +11,8 @@ use App\Models\FamilyMember;
 use App\Models\HeadOfFamily;
 use App\Models\SocialAssistance;
 use App\Models\SocialAssistanceRecipient;
+use App\Models\User;
+use DateTime;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
@@ -66,5 +69,31 @@ class DashboardRepository implements DashboardRepositoryInterface
                 ];
             })
             ->toArray();
+    }
+
+    public function getAgeDistribution(): array
+    {
+        $userBirthDates = User::query()->pluck('birth_date');
+        $ageDistribution = [
+            'Bayi' => 0,
+            'Balita' => 0,
+            'Anak-anak' => 0,
+            'Remaja' => 0,
+            'Dewasa' => 0,
+            'Lansia Awal' => 0,
+            'Lansia Akhir' => 0,
+            'Manula' => 0,
+        ];
+
+        foreach ($userBirthDates as $birthDate) {
+            $age = UserAgeHelper::calculateAge(DateTime::createFromFormat('Y-m-d H:i:s', $birthDate));
+            $category = UserAgeHelper::classifyAge($age);
+
+            if (isset($ageDistribution[$category])) {
+                $ageDistribution[$category]++;
+            }
+        }
+
+        return $ageDistribution;
     }
 }

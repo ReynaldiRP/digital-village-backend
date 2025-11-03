@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('dashboard/get-dashboard-data', [\App\Http\Controllers\DashboardController::class, 'getDashboardData']);
     Route::get('dashboard/get-recent-social-assistances', [\App\Http\Controllers\DashboardController::class, 'getRecentSocialAssistances']);
     Route::get('dashboard/get-recent-development-applicants', [\App\Http\Controllers\DashboardController::class, 'getRecentDevelopmentApplicants']);
+    Route::get('dashboard/get-age-distribution', [\App\Http\Controllers\DashboardController::class, 'getAgeDistribution']);
 
     Route::apiResource('users', UserController::class);
     Route::get('users/all/paginated', [UserController::class, 'getAllPaginated']);

@@ -76,4 +76,25 @@ class DashboardController extends Controller
             );
         }
     }
+
+    public function getAgeDistribution(Request $request)
+    {
+        try {
+            $limit = $request->query('limit', 4);
+            $data = $this->dashboardRepository->getAgeDistribution($limit);
+            return ResponseHelper::jsonResponse(
+                true,
+                'Berhasil mengambil data distribusi usia',
+                $data,
+                200
+            );
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(
+                false,
+                $e->getMessage(),
+                null,
+                500
+            );
+        }
+    }
 }

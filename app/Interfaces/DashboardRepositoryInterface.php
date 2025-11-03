@@ -11,4 +11,5 @@ interface DashboardRepositoryInterface
     public function getRecentDevelopmentApplicants(
         int $limit = 4
     ): array;
+    public function getAgeDistribution(): array;
 }
