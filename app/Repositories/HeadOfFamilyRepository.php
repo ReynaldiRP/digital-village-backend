@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
 use App\Models\HeadOfFamily;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -14,17 +15,48 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 {
     public function getAll(
         ?string $search,
+        ?array $filters,
         ?int $limit,
         bool $execute
-    ): Collection {
-        $query = HeadOfFamily::where(function ($query) use ($search) {
-            // Apply search filter if provided
-            if ($search) {
-                $query->search($search);
-            }
-        });
+    ): Collection | Builder {
+        $query = HeadOfFamily::query();
 
-        $query->with('familyMembers')->latest();
+        // Apply search filter if provided
+        if ($search) {
+            $query->search($search);
+        }
+
+        // Apply additional filters if provided
+        if ($filters) {
+            // Apply gender filter
+            if (isset($filters['gender'])) {
+                $query->gender($filters['gender']);
+            }
+
+            // Apply family count range filter
+            if (isset($filters['family_count_range'])) {
+                $min = $filters['family_count_range']['min'] ?? null;
+                $max = $filters['family_count_range']['max'] ?? null;
+                $query->familyCountRange($min, $max);
+            }
+
+            // Apply marital status filter
+            if (isset($filters['marital_status'])) {
+                $query->maritalStatus($filters['marital_status']);
+            }
+
+            // Apply occupation filter
+            if (isset($filters['occupation'])) {
+                $query->occupation($filters['occupation']);
+            }
+
+            // Apply sorting
+            if (isset($filters['sort_by'])) {
+                $query->sorted($filters['sort_by'], $filters['sort_order'] ?? 'asc');
+            }
+        }
+
+        $query->with('familyMembers')->withCount('familyMembers')->latest();
 
         // Apply limit if provided
         if ($limit) {
@@ -40,10 +72,12 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
     public function getAllPaginated(
         ?string $search,
+        ?array $filters,
         ?int $rowPerPage
     ): LengthAwarePaginator {
         $query = $this->getAll(
             $search,
+            $filters,
             $rowPerPage,
             false
         );
@@ -153,5 +187,40 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
             DB::rollBack();
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function applyFilters(
+        array $filters
+    ): Builder {
+        $query = HeadOfFamily::query();
+
+        // Apply gender filter
+        if (isset($filters['gender'])) {
+            $query->gender($filters['gender']);
+        }
+
+        // Apply family count range filter
+        if (isset($filters['family_count_range'])) {
+            $min = $filters['family_count_range']['min'] ?? null;
+            $max = $filters['family_count_range']['max'] ?? null;
+            $query->familyCountRange($min, $max);
+        }
+
+        // Apply martial status filter
+        if (isset($filters['marital_status'])) {
+            $query->maritalStatus($filters['marital_status']);
+        }
+
+        // Apply occupation filter
+        if (isset($filters['occupation'])) {
+            $query->occupation($filters['occupation']);
+        }
+
+        // Apply sorting
+        if (isset($filters['sort_by']) || isset($filters['sort_order'])) {
+            $query->sorted($filters['sort_by'] ?? null, $filters['sort_order'] ?? null);
+        }
+
+        return $query;
     }
 }

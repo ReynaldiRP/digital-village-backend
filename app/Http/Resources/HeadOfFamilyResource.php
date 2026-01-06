@@ -25,6 +25,7 @@ class HeadOfFamilyResource extends JsonResource
             'profile_picture' => $this->profile_picture ? asset('storage/' . $this->profile_picture) : null,
             'marital_status' => $this->marital_status,
             'created_at' => $this->created_at->format('d F Y H:i'),
+            'family_members_count' => $this->when(isset($this->family_members_count), $this->family_members_count),
             'family_members' => FamilyMemberResource::collection($this->whenLoaded('familyMembers')),
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Models\HeadOfFamily;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -10,12 +11,14 @@ interface HeadOfFamilyRepositoryInterface
 {
     public function getAll(
         ?string $search,
+        ?array $filters,
         ?int $limit,
         bool $execute
-    ): Collection;
+    ): Collection | Builder;
 
     public function getAllPaginated(
         ?string $search,
+        ?array $filters,
         ?int $rowPerPage,
     ): LengthAwarePaginator;
 
@@ -35,4 +38,8 @@ interface HeadOfFamilyRepositoryInterface
     public function delete(
         string $id
     ): bool;
+
+    public function applyFilters(
+        array $filters
+    ): Builder;
 }

@@ -11,7 +11,6 @@ class HeadOfFamilyTest extends TestCase
 {
     use RefreshDatabase;
 
-
     public function test_read_head_of_families_data(): void
     {
         User::factory()->count(10)->create()->each(function ($user) {

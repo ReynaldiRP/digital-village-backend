@@ -24,6 +24,9 @@ class RoleSeeder extends Seeder
         ])->givePermissionTo([
             'dashboard-menu',
 
+            'head-of-family-menu',
+            'head-of-family-read',
+
             'family-member-menu',
             'family-member-read',
             'family-member-create',

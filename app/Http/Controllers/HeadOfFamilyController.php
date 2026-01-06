@@ -42,9 +42,24 @@ class HeadOfFamilyController extends Controller implements HasMiddleware
     public function index(Request $request): JsonResponse
     {
         try {
+            $validated = $request->validate([
+                'search' => 'nullable|string',
+                'limit' => 'nullable|integer|min:1',
+                'filters' => 'nullable|array',
+                'filters.gender' => 'nullable|string|in:male,female',
+                'filters.family_count_range' => 'nullable|array',
+                'filters.family_count_range.min' => 'nullable|integer|min:0',
+                'filters.family_count_range.max' => 'nullable|integer|min:0',
+                'filters.marital_status' => 'nullable|string',
+                'filters.occupation' => 'nullable|string',
+                'filters.sort_by' => 'nullable|string',
+                'filters.sort_order' => 'nullable|string|in:asc,desc',
+            ]);
+
             $headOfFamilies = $this->headOfFamilyRepository->getAll(
-                $request->search,
-                $request->limit,
+                $validated['search'] ?? null,
+                $validated['filters'] ?? null,
+                $validated['limit'] ?? null,
                 true
             );
 
@@ -72,15 +87,24 @@ class HeadOfFamilyController extends Controller implements HasMiddleware
     public function getAllPaginated(Request $request): JsonResponse
     {
         try {
-            $request = $request->validate([
+            $validated = $request->validate([
                 'search' => 'nullable|string',
-                'row_per_page' => 'required',
+                'row_per_page' => 'required|integer|min:1',
+                'filters' => 'nullable|array',
+                'filters.gender' => 'nullable|string|in:male,female',
+                'filters.family_count_range' => 'nullable|array',
+                'filters.family_count_range.min' => 'nullable|integer|min:0',
+                'filters.family_count_range.max' => 'nullable|integer|min:0',
+                'filters.marital_status' => 'nullable|string',
+                'filters.occupation' => 'nullable|string',
+                'filters.sort_by' => 'nullable|string',
+                'filters.sort_order' => 'nullable|string|in:asc,desc',
             ]);
 
-
             $headOfFamilies = $this->headOfFamilyRepository->getAllPaginated(
-                $request['search'] ?? null,
-                $request['row_per_page']
+                $validated['search'] ?? null,
+                $validated['filters'] ?? null,
+                $validated['row_per_page']
             );
 
             return ResponseHelper::jsonResponse(
