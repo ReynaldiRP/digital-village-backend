@@ -53,7 +53,6 @@ class HeadOfFamilyController extends Controller implements HasMiddleware
                 'filters.marital_status' => 'nullable|string',
                 'filters.occupation' => 'nullable|string',
                 'filters.sort_by' => 'nullable|string',
-                'filters.sort_order' => 'nullable|string|in:asc,desc',
             ]);
 
             $headOfFamilies = $this->headOfFamilyRepository->getAll(

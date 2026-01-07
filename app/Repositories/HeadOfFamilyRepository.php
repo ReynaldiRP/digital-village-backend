@@ -52,7 +52,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
             // Apply sorting
             if (isset($filters['sort_by'])) {
-                $query->sorted($filters['sort_by'], $filters['sort_order'] ?? 'asc');
+                $query->sorted($filters['sort_by']);
             }
         }
 
