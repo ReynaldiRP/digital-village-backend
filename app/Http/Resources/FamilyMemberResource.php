@@ -22,6 +22,7 @@ class FamilyMemberResource extends JsonResource
             'identify_number' => $this->identify_number,
             'gender' => $this->gender,
             'birth_date' => $this->birth_date,
+            'age' => $this->birth_date ? \Carbon\Carbon::parse($this->birth_date)->age : null,
             'phone_number' => $this->phone_number,
             'occupation' => $this->occupation,
             'marital_status' => $this->marital_status,
