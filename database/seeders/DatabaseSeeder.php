@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             HeadOfFamilySeeder::class,
-            FamilyMemberSeeder::class,
             SocialAssistanceSeeder::class,
             SocialAssistanceRecipientSeeder::class,
             EventSeeder::class,

@@ -14,6 +14,8 @@ class FamilyMemberSeeder extends Seeder
      */
     public function run(): void
     {
-        FamilyMemberFactory::new()->count(15)->create();
+        // Family members are now created in HeadOfFamilySeeder
+        // This seeder is kept for backward compatibility but does nothing
+        // Remove this seeder call from DatabaseSeeder if not needed
     }
 }
