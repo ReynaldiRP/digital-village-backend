@@ -18,6 +18,7 @@ class EventParticipantResource extends JsonResource
             'id' => $this->id,
             'event' => new EventResource($this->event),
             'head_of_family' => HeadOfFamilyResource::make($this->whenLoaded('headOfFamily')),
+            'total_participants' => $this->total_participants,
             'quantity' => $this->quantity,
             'total_price' => $this->total_price,
             'payment_status' => $this->payment_status,

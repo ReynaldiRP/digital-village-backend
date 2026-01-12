@@ -88,7 +88,11 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
     public function getById(
         string $id
     ): ?HeadOfFamily {
-        $query = HeadOfFamily::with('familyMembers', 'socialAssistanceRecipients', 'eventParticipants')->where('id', $id);
+        $query = HeadOfFamily::with([
+            'familyMembers',
+            'socialAssistanceRecipients',
+            'eventParticipants.headOfFamily.familyMembers'
+        ])->where('id', $id);
 
         return $query->first();
     }
