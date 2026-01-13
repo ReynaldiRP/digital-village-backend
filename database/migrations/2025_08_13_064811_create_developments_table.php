@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->decimal('amount', 10, 2);
-            $table->enum('status', ['ongoing', 'completed'])->default('ongoing');
+            $table->enum('status', ['berlangsung', 'selesai'])->default('berlangsung');
             $table->softDeletes();
             $table->timestamps();
         });

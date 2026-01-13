@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,7 @@ class SocialAssistanceResource extends JsonResource
             'description' => $this->description,
             'is_available' => $this->is_available,
             'recipients' => SocialAssistanceRecipientResource::collection($this->whenLoaded('socialAssistanceRecipients')),
+            'applied_at' => Carbon::parse($this->created_at)->toIso8601String(),
         ];
     }
 }

@@ -25,8 +25,8 @@ return new class extends Migration
                     column: 'id',
                 )
                 ->cascadeOnDelete();
-            $table->enum('status', ['pending', 'approved', 'rejected'])
-                ->default('pending');
+            $table->enum('status', ['menunggu', 'diterima', 'ditolak'])
+                ->default('menunggu');
             $table->softDeletes();
             $table->timestamps();
         });
