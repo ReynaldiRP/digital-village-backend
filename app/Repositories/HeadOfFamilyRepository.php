@@ -91,7 +91,8 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
         $query = HeadOfFamily::with([
             'familyMembers',
             'socialAssistanceRecipients',
-            'eventParticipants.headOfFamily.familyMembers'
+            'eventParticipants.headOfFamily.familyMembers',
+            'user.developmentApplicants'
         ])->where('id', $id);
 
         return $query->first();

@@ -30,6 +30,10 @@ class HeadOfFamilyResource extends JsonResource
             'family_members' => FamilyMemberResource::collection($this->whenLoaded('familyMembers')),
             'social_assistances' => SocialAssistanceRecipientResource::collection($this->whenLoaded('socialAssistanceRecipients')),
             'events' => EventParticipantResource::collection($this->whenLoaded('eventParticipants')),
+            'development_applicants' => $this->when(
+                $this->relationLoaded('user') && $this->user?->relationLoaded('developmentApplicants'),
+                fn() => DevelopmentApplicantResource::collection($this->user->developmentApplicants)
+            ),
         ];
     }
 }
