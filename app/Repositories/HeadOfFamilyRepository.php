@@ -173,7 +173,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
     public function delete(
         string $id
-    ): bool {
+    ): HeadOfFamily {
         DB::beginTransaction();
 
         try {

@@ -37,7 +37,7 @@ interface HeadOfFamilyRepositoryInterface
 
     public function delete(
         string $id
-    ): bool;
+    ): HeadOfFamily;
 
     public function applyFilters(
         array $filters
