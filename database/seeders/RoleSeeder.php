@@ -23,10 +23,7 @@ class RoleSeeder extends Seeder
             'guard_name' => 'sanctum',
         ])->givePermissionTo([
             'dashboard-menu',
-
-            'head-of-family-menu',
-            'head-of-family-read',
-
+            
             'family-member-menu',
             'family-member-read',
             'family-member-create',

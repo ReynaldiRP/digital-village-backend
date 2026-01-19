@@ -4,7 +4,10 @@ namespace App\Repositories;
 
 use App\Interfaces\AuthRepositoryInterface;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+
+use function Symfony\Component\Clock\now;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -19,7 +22,12 @@ class AuthRepository implements AuthRepositoryInterface
         }
 
         $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $permissions = $user->getAllPermissions()->pluck('name');
+        $token = $user->createToken(
+            'auth_token',
+            $permissions->toArray(),
+            Carbon::now()->addMinutes(config('sanctum.expiration'))
+        )->plainTextToken;
 
         return response()->json([
             'success' => true,
