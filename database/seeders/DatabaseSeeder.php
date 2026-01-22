@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            ProfileSeeder::class,
+            ProfileImageSeeder::class,
             HeadOfFamilySeeder::class,
             SocialAssistanceSeeder::class,
             SocialAssistanceRecipientSeeder::class,

@@ -95,9 +95,19 @@ class SocialAssistanceSeeder extends Seeder
             ],
         ];
 
+        $bansosImages = [
+            'assets/data-seeder/thumbnails/kk-bansos-1.png',
+            'assets/data-seeder/thumbnails/kk-bansos-2.png',
+            'assets/data-seeder/thumbnails/kk-bansos-3.png',
+            'assets/data-seeder/thumbnails/kk-bansos-4.png',
+            'assets/data-seeder/thumbnails/kk-bansos-5.png',
+            'assets/data-seeder/thumbnails/thumbnail-bansos-preview.svg',
+        ];
+
+        $index = 0;
         foreach ($programs as $program) {
             SocialAssistance::create([
-                'thumbnail' => fake()->imageUrl(640, 480, 'people', true),
+                'thumbnail' => $bansosImages[$index % count($bansosImages)],
                 'name' => $program['name'],
                 'category' => $program['category'],
                 'amount' => $program['amount'],
@@ -105,6 +115,7 @@ class SocialAssistanceSeeder extends Seeder
                 'description' => $program['description'],
                 'is_available' => $program['is_available'],
             ]);
+            $index++;
         }
     }
 }

@@ -40,7 +40,7 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->map(function ($recipient) {
                 return [
                     'id' => $recipient->id,
-                    'thumbnail' => $recipient->socialAssistance->thumbnail ?? null,
+                    'thumbnail' => $recipient->socialAssistance->thumbnail ? asset('storage/' . $recipient->socialAssistance->thumbnail) : null,
                     'recipient_name' => $recipient->headOfFamily->user->name,
                     'social_assistance' => $recipient->socialAssistance->name,
                     'amount' => $recipient->amount,
@@ -54,7 +54,7 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getRecentDevelopmentApplicants(
         int $limit = 4
     ): array {
-        return DevelopmentApplicant::with(['user', 'development'])
+        return DevelopmentApplicant::with(['user', 'user.headOfFamily', 'development'])
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get()
@@ -66,6 +66,8 @@ class DashboardRepository implements DashboardRepositoryInterface
                     'amount_requested' => $applicant->development->amount ?? null,
                     'status' => $applicant->status,
                     'applied_at' => $applicant->created_at->format('d F Y H:i'),
+                    'thumbnail' => $applicant->development->thumbnail ? asset('storage/' . $applicant->development->thumbnail) : null,
+                    'applicant_photo' => $applicant->user->headOfFamily->profile_picture ? asset('storage/' . $applicant->user->headOfFamily->profile_picture) : null,
                 ];
             })
             ->toArray();

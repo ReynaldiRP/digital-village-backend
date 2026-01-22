@@ -72,7 +72,7 @@ class ProfileRepository implements ProfileRepositoryInterface
             if (array_key_exists('profile_images', $data)) {
                 foreach ($data['profile_images'] as $image) {
                     $profile->profileImages()->create([
-                        'image' => $image->store('assets/profile_images', 'public'),
+                        'image' => $image->store('assets/profile-images', 'public'),
                         'profile_id' => $profile->id,
                     ]);
                 }

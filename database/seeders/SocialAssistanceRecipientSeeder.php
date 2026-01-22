@@ -40,7 +40,12 @@ class SocialAssistanceRecipientSeeder extends Seeder
                         'reason' => $this->getRealisticReason($program->category),
                         'bank' => fake()->randomElement(['BRI', 'BNI', 'BCA', 'Mandiri']),
                         'account_number' => fake()->numerify('##########'),
-                        'proof' => fake()->imageUrl(640, 480, null, true),
+                        'proof' => fake()->randomElement([
+                            'assets/data-seeder/thumbnails/kk-bukti-menerima-bansos.png',
+                            'assets/data-seeder/thumbnails/kk-bca.png',
+                            'assets/data-seeder/thumbnails/kk-bni.png',
+                            'assets/data-seeder/thumbnails/kk-mandiri.png',
+                        ]),
                         'status' => fake()->randomElement([
                             'diterima',
                             'diterima',

@@ -17,7 +17,7 @@ class SocialAssistanceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => $this->thumbnail ? asset('storage/' . $this->thumbnail) : null,
             'name' => $this->name,
             'category' => $this->category,
             'amount' => $this->amount,

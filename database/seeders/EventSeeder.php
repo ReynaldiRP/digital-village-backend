@@ -80,9 +80,19 @@ class EventSeeder extends Seeder
             ],
         ];
 
+        $eventThumbnails = [
+            'assets/data-seeder/thumbnails/kk-event-desa-1.png',
+            'assets/data-seeder/thumbnails/kk-event-desa-2.png',
+            'assets/data-seeder/thumbnails/kk-event-desa-3.png',
+            'assets/data-seeder/thumbnails/kk-event-desa-4.png',
+            'assets/data-seeder/thumbnails/kk-event-desa-5.png',
+            'assets/data-seeder/thumbnails/event-image-1.png',
+        ];
+
+        $index = 0;
         foreach ($events as $event) {
             Event::create([
-                'thumbnail' => fake()->imageUrl(640, 480, 'events', true),
+                'thumbnail' => $eventThumbnails[$index % count($eventThumbnails)],
                 'name' => $event['name'],
                 'description' => $event['description'],
                 'price' => $event['price'],
@@ -90,6 +100,7 @@ class EventSeeder extends Seeder
                 'time' => $event['time'],
                 'is_active' => $event['is_active'],
             ]);
+            $index++;
         }
     }
 }

@@ -88,9 +88,18 @@ class DevelopmentSeeder extends Seeder
             ],
         ];
 
+        $developmentImages = [
+            'assets/data-seeder/thumbnails/kk-pembangunan-desa-1.png',
+            'assets/data-seeder/thumbnails/kk-pembangunan-desa-2.png',
+            'assets/data-seeder/thumbnails/kk-pembangunan-desa-3.png',
+            'assets/data-seeder/thumbnails/kk-pembangunan-desa-4.png',
+            'assets/data-seeder/thumbnails/kk-pembangunan-desa-5.png',
+        ];
+
+        $index = 0;
         foreach ($projects as $project) {
             Development::create([
-                'thumbnail' => fake()->imageUrl(640, 480, 'business', true),
+                'thumbnail' => $developmentImages[$index % count($developmentImages)],
                 'name' => $project['name'],
                 'description' => $project['description'],
                 'person_in_charge' => $project['person_in_charge'],
@@ -99,6 +108,7 @@ class DevelopmentSeeder extends Seeder
                 'amount' => $project['amount'],
                 'status' => $project['status'],
             ]);
+            $index++;
         }
     }
 }

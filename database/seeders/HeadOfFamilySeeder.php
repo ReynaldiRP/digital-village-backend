@@ -36,9 +36,18 @@ class HeadOfFamilySeeder extends Seeder
 
         // Create head of family
         $birthDate = fake()->dateTimeBetween('-60 years', '-25 years')->format('Y-m-d');
+        $photos = [
+            'assets/data-seeder/photos/kk-photo-1.png',
+            'assets/data-seeder/photos/kk-photo-2.png',
+            'assets/data-seeder/photos/kk-photo-3.png',
+            'assets/data-seeder/photos/kk-photo-4.png',
+            'assets/data-seeder/photos/kk-photo-5.png',
+            'assets/data-seeder/photos/photo-1.png',
+            'assets/data-seeder/photos/photo-2.png',
+        ];
         $headOfFamily = HeadOfFamily::create([
             'user_id' => $headUser->id,
-            'profile_picture' => fake()->imageUrl(640, 480, 'people', true),
+            'profile_picture' => fake()->randomElement($photos),
             'identify_number' => fake()->unique()->numerify('##########'),
             'gender' => $headGender,
             'birth_date' => $birthDate,
@@ -81,10 +90,19 @@ class HeadOfFamilySeeder extends Seeder
         ]);
 
         $spouseBirthDate = fake()->dateTimeBetween('-55 years', '-23 years')->format('Y-m-d');
+        $photos = [
+            'assets/data-seeder/photos/kk-photo-1.png',
+            'assets/data-seeder/photos/kk-photo-2.png',
+            'assets/data-seeder/photos/kk-photo-3.png',
+            'assets/data-seeder/photos/kk-photo-4.png',
+            'assets/data-seeder/photos/kk-photo-5.png',
+            'assets/data-seeder/photos/photo-1.png',
+            'assets/data-seeder/photos/photo-2.png',
+        ];
         FamilyMember::create([
             'head_of_family_id' => $headOfFamily->id,
             'user_id' => $spouseUser->id,
-            'profile_picture' => fake()->imageUrl(640, 480, 'people', true),
+            'profile_picture' => fake()->randomElement($photos),
             'identify_number' => fake()->unique()->numerify('##########'),
             'gender' => $spouseGender,
             'birth_date' => $spouseBirthDate,
@@ -123,10 +141,19 @@ class HeadOfFamilySeeder extends Seeder
             $childBirthDate = $childBirthDateTime->format('Y-m-d');
             $age = $this->calculateAge($childBirthDate);
 
+            $photos = [
+                'assets/data-seeder/photos/kk-photo-1.png',
+                'assets/data-seeder/photos/kk-photo-2.png',
+                'assets/data-seeder/photos/kk-photo-3.png',
+                'assets/data-seeder/photos/kk-photo-4.png',
+                'assets/data-seeder/photos/kk-photo-5.png',
+                'assets/data-seeder/photos/photo-1.png',
+                'assets/data-seeder/photos/photo-2.png',
+            ];
             FamilyMember::create([
                 'head_of_family_id' => $headOfFamily->id,
                 'user_id' => $childUser->id,
-                'profile_picture' => fake()->imageUrl(640, 480, 'people', true),
+                'profile_picture' => fake()->randomElement($photos),
                 'identify_number' => fake()->unique()->numerify('##########'),
                 'gender' => $childGender,
                 'birth_date' => $childBirthDate,

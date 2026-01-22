@@ -27,7 +27,7 @@ class DevelopmentResource extends JsonResource
             'duration' => $totalDays,
             'amount' => $this->amount,
             'status' => $this->status,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => $this->thumbnail ? asset('storage/' . $this->thumbnail) : null,
         ];
     }
 }

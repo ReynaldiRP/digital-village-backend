@@ -18,7 +18,7 @@ class FamilyMemberResource extends JsonResource
             'id' => $this->id,
             'head_of_family' => new HeadOfFamilyResource($this->whenLoaded('headOfFamily')),
             'user' => new UserResource($this->user),
-            'profile_picture' => $this->profile_picture,
+            'profile_picture' => $this->profile_picture ? asset('storage/' . $this->profile_picture) : null,
             'identify_number' => $this->identify_number,
             'gender' => $this->gender,
             'birth_date' => $this->birth_date,
