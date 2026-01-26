@@ -3,11 +3,9 @@
 namespace App\Repositories;
 
 use App\Interfaces\AuthRepositoryInterface;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-use function Symfony\Component\Clock\now;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -40,36 +38,36 @@ class AuthRepository implements AuthRepositoryInterface
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
-        $response = [
+
+        return response([
             'success' => true,
             'message' => 'Logout successful',
-        ];
-
-        return response($response, 200);
+        ]);
     }
 
     public function me(): object
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $user->load('roles.permissions');
-            $permissions = $user->roles->flatMap->permissions->pluck('name');
-            $role = $user->roles->first()->name;
+        $user = Auth::user();
 
+        if (!$user) {
             return response()->json([
-                'success' => true,
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'permissions' => $permissions,
-                    'role' => $role,
-                ]
-            ]);
+                'message' => 'You are not logged in',
+            ], 401);
         }
 
+        $user->load('roles.permissions');
+        $permissions = $user->roles->flatMap->permissions->pluck('name');
+        $role = $user->roles->first()?->name;
+
         return response()->json([
-            'message' => 'You are not logged in',
-        ], 401);
+            'success' => true,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'permissions' => $permissions,
+                'role' => $role,
+            ]
+        ]);
     }
 }

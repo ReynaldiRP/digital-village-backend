@@ -50,6 +50,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('village-profiles', VillageProfileController::class)->only(['index', 'store', 'update']);
 });
 
-Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
-Route::get('me', [AuthController::class, 'me'])->name('me')->middleware('auth:sanctum');
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+});
