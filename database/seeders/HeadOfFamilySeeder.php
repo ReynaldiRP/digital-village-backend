@@ -66,7 +66,7 @@ class HeadOfFamilySeeder extends Seeder
                 'TNI/Polri',
                 'Karyawan BUMN'
             ]),
-            'marital_status' => $isMarried ? 'menikah' : 'lajang',
+            'marital_status' => $isMarried ? 'single' : 'married',
         ]);
 
         if ($isMarried) {
@@ -117,7 +117,7 @@ class HeadOfFamilySeeder extends Seeder
                 'Pedagang',
                 'Karyawan BUMN'
             ]),
-            'marital_status' => 'menikah',
+            'marital_status' => 'married',
             'relation' => $spouseRelation,
         ]);
 
@@ -159,7 +159,7 @@ class HeadOfFamilySeeder extends Seeder
                 'birth_date' => $childBirthDate,
                 'phone_number' => $age >= 12 ? fake()->phoneNumber() : null,
                 'occupation' => $this->getChildOccupation($age),
-                'marital_status' => 'lajang',
+                'marital_status' => 'single',
                 'relation' => 'child',
             ]);
         }

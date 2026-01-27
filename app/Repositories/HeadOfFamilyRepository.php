@@ -112,10 +112,11 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
                 'password' => $data['password'],
             ])->assignRole('head-of-family');
 
-
             $headOfFamily = new HeadOfFamily();
+            if (isset($data['profile_picture'])) {
+                $headOfFamily->profile_picture = $data['profile_picture']->store('assets/head-of-families', 'public');
+            }
             $headOfFamily->user_id = $user->id;
-            $headOfFamily->profile_picture = $data['profile_picture']->store('assets/head-of-families', 'public');
             $headOfFamily->identify_number = $data['identify_number'];
             $headOfFamily->gender = $data['gender'];
             $headOfFamily->birth_date = $data['birth_date'];

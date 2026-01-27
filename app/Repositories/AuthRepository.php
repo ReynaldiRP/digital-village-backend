@@ -55,7 +55,7 @@ class AuthRepository implements AuthRepositoryInterface
             ], 401);
         }
 
-        $user->load('roles.permissions');
+        $user->load(['roles.permissions', 'headOfFamily']);
         $permissions = $user->roles->flatMap->permissions->pluck('name');
         $role = $user->roles->first()?->name;
 
@@ -67,6 +67,7 @@ class AuthRepository implements AuthRepositoryInterface
                 'email' => $user->email,
                 'permissions' => $permissions,
                 'role' => $role,
+                'profile_picture_url' => asset('storage/' . $user->headOfFamily?->profile_picture),
             ]
         ]);
     }
