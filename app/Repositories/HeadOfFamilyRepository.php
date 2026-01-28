@@ -143,6 +143,15 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
         try {
             $headOfFamily = HeadOfFamily::find($id);
 
+            $userRepository = new UserRepository();
+            $userRepository->update(
+                $headOfFamily->user_id,
+                [
+                    'name' => $data['name'] ?? $headOfFamily->user->name,
+                    'email' => $data['email'] ?? $headOfFamily->user->email
+                ]
+            );
+
             if (isset($data['profile_picture'])) {
                 $oldProfilePicture = $headOfFamily->profile_picture;
 
@@ -153,7 +162,6 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
                 }
             }
 
-            $headOfFamily->user_id = $data['user_id'] ?? $headOfFamily->user_id;
             $headOfFamily->identify_number = $data['identify_number'] ?? $headOfFamily->identify_number;
             $headOfFamily->gender = $data['gender'] ?? $headOfFamily->gender;
             $headOfFamily->birth_date = $data['birth_date'] ?? $headOfFamily->birth_date;
@@ -165,7 +173,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
             DB::commit();
 
-            return $headOfFamily;
+            return $headOfFamily->fresh(['user']);
         } catch (\Exception $e) {
             DB::rollBack();
             throw new Exception($e->getMessage());

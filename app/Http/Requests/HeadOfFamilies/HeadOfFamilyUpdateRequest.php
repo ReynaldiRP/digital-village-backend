@@ -14,6 +14,8 @@ class HeadOfFamilyUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|max:255',
             'user_id' => 'sometimes|exists:users,id',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'identify_number' => 'sometimes|string|max:255',
