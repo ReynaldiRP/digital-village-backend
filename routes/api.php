@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventParticipantController;
 use App\Http\Controllers\FamilyMemberController;
 use App\Http\Controllers\HeadOfFamilyController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\SocialAssistanceController;
 use App\Http\Controllers\SocialAssistanceRecipientController;
 use App\Http\Controllers\UserController;
@@ -52,6 +53,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/send-reset-link', [PasswordResetController::class, 'sendResetLink']);
+Route::post('/reset-password', [PasswordResetController::class, 'reset']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
