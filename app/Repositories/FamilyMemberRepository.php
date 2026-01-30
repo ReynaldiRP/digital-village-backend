@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Interfaces\FamilyMemberRepositoryInterface;
 use App\Models\FamilyMember;
+use App\Models\HeadOfFamily;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -57,6 +59,33 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
         $query = FamilyMember::where('id', $id)->with('headOfFamily');
 
         return $query->first();
+    }
+
+    public function getByHeadOfFamilyId(
+        string $headOfFamilyId
+    ): SupportCollection {
+        return HeadOfFamily::with(['familyMembers', 'user'])
+            ->where('id', $headOfFamilyId)
+            ->get()
+            ->map(function ($headOfFamily) {
+                return [
+                    'id' => $headOfFamily->id,
+                    'name' => $headOfFamily->user?->name,
+                    'occupation' => $headOfFamily->occupation,
+                    'identity_number' => $headOfFamily->identify_number,
+                    'age' => $headOfFamily->birth_date ? \Carbon\Carbon::parse($headOfFamily->birth_date)->age : null,
+                    'family_members' => $headOfFamily->familyMembers->map(function ($member) {
+                        return [
+                            'id' => $member->id,
+                            'name' => $member->user?->name,
+                            'relation' => $member->relation,
+                            'occupation' => $member->occupation,
+                            'identity_number' => $member->identify_number,
+                            'age' => $member->birth_date ? \Carbon\Carbon::parse($member->birth_date)->age : null,
+                        ];
+                    })
+                ];
+            });
     }
 
     public function create(

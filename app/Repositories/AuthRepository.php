@@ -63,6 +63,7 @@ class AuthRepository implements AuthRepositoryInterface
             'success' => true,
             'user' => [
                 'id' => $user->id,
+                'head_of_family_id' => $user->headOfFamily?->id,
                 'name' => $user->name,
                 'email' => $user->email,
                 'permissions' => $permissions,

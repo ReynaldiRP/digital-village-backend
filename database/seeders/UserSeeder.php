@@ -22,11 +22,11 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');
 
         User::query()->create([
-            'name' => 'Kepala Kelurahan',
-            'email' => 'headoffamily@example.com',
+            'name' => 'Kepala Desa',
+            'email' => 'headofvillage@example.com',
             'password' => bcrypt('password'),
             'birth_date' => '1985-05-15 00:00:00',
-        ])->assignRole('head-of-family');
+        ])->assignRole('head-of-village');
 
         UserFactory::new()->count(15)->create();
     }

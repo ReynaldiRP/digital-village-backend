@@ -161,6 +161,32 @@ class FamilyMemberController extends Controller implements HasMiddleware
     }
 
     /**
+     * Get family members by head of family ID.
+     * @param string $headOfFamilyId
+     * @return JsonResponse
+     */
+    public function getFamilyMembersByHeadOfFamilyId(string $headOfFamilyId): JsonResponse
+    {
+        try {
+            $familyMembers = $this->familyMemberRepository->getByHeadOfFamilyId($headOfFamilyId);
+
+            return ResponseHelper::jsonResponse(
+                true,
+                'Berhasil mendapatkan data anggota keluarga',
+                $familyMembers,
+                200
+            );
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(
+                false,
+                $e->getMessage(),
+                null,
+                500
+            );
+        }
+    }
+
+    /**
      * Update the specified family member in storage.
      * @param FamilyMemberUpdateRequest $request
      * @param string $id

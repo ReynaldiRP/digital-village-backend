@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('family-members', FamilyMemberController::class);
     Route::get('family-members/all/paginated', [FamilyMemberController::class, 'getAllPaginated']);
+    Route::get('family-members/by-head-of-family/{headOfFamilyId}', [FamilyMemberController::class, 'getFamilyMembersByHeadOfFamilyId']);
 
     Route::apiResource('social-assistances', SocialAssistanceController::class);
     Route::get('social-assistances/all/paginated', [SocialAssistanceController::class, 'getAllPaginated']);

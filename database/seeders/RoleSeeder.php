@@ -19,11 +19,51 @@ class RoleSeeder extends Seeder
         ])->givePermissionTo(\Spatie\Permission\Models\Permission::all());
 
         Role::query()->create([
+            'name' => 'head-of-village',
+            'guard_name' => 'sanctum',
+        ])->givePermissionTo([
+            'dashboard-menu',
+
+            'head-of-family-menu',
+            'head-of-family-read',
+            'head-of-family-create',
+            'head-of-family-update',
+            'head-of-family-delete',
+            'head-of-family-export',
+
+            'social-assistance-menu',
+            'social-assistance-read',
+            'social-assistance-create',
+            'social-assistance-update',
+            'social-assistance-delete',
+            'social-assistance-export',
+
+            'event-menu',
+            'event-read',
+            'event-create',
+            'event-update',
+            'event-delete',
+            'event-export',
+
+            'development-menu',
+            'development-read',
+            'development-create',
+            'development-update',
+            'development-delete',
+            'development-export',
+
+            'profile-menu',
+            'profile-read',
+            'profile-update',
+            'profile-delete',
+        ]);
+
+        Role::query()->create([
             'name' => 'head-of-family',
             'guard_name' => 'sanctum',
         ])->givePermissionTo([
             'dashboard-menu',
-            
+
             'family-member-menu',
             'family-member-read',
             'family-member-create',
@@ -53,9 +93,6 @@ class RoleSeeder extends Seeder
 
             'development-menu',
             'development-read',
-
-            'profile-menu',
-
         ]);
     }
 }

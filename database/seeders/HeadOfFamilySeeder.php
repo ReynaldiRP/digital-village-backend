@@ -26,13 +26,16 @@ class HeadOfFamilySeeder extends Seeder
         // 70% married, 30% single
         $isMarried = fake()->boolean(70);
 
-        // Head of family is usually male (80% male, 20% female)
-        $headGender = fake()->randomElement(['male', 'male', 'male', 'male', 'female']);
+        // If married, head must be male (husband). If single, can be male or female
+        $headGender = $isMarried ? 'male' : fake()->randomElement(['male', 'male', 'female']);
 
         // Create user for head of family
         $headUser = User::factory()->create([
             'name' => fake()->name($headGender),
         ]);
+
+        // Assign head-of-family role
+        $headUser->assignRole('head-of-family');
 
         // Create head of family
         $birthDate = fake()->dateTimeBetween('-60 years', '-25 years')->format('Y-m-d');
@@ -66,7 +69,7 @@ class HeadOfFamilySeeder extends Seeder
                 'TNI/Polri',
                 'Karyawan BUMN'
             ]),
-            'marital_status' => $isMarried ? 'single' : 'married',
+            'marital_status' => $isMarried ? 'married' : 'single',
         ]);
 
         if ($isMarried) {
@@ -81,9 +84,9 @@ class HeadOfFamilySeeder extends Seeder
 
     private function createMarriedFamilyMembers(HeadOfFamily $headOfFamily, string $headGender): void
     {
-        // Create spouse (opposite gender)
-        $spouseGender = $headGender === 'male' ? 'female' : 'male';
-        $spouseRelation = $headGender === 'male' ? 'wife' : 'husband';
+        // Create spouse (wife, since head is always male when married)
+        $spouseGender = 'female';
+        $spouseRelation = 'wife';
 
         $spouseUser = User::factory()->create([
             'name' => fake()->name($spouseGender),

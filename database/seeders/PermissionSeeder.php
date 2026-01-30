@@ -77,8 +77,10 @@ class PermissionSeeder extends Seeder
         ],
         'profile' => [
             'menu',
+            'read',
             'create',
             'update',
+            'delete',
         ],
     ];
 

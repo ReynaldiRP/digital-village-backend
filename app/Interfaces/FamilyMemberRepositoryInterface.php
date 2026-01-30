@@ -5,6 +5,7 @@ namespace App\Interfaces;
 use App\Models\FamilyMember;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection as SupportCollection;
 
 interface FamilyMemberRepositoryInterface
 {
@@ -22,6 +23,10 @@ interface FamilyMemberRepositoryInterface
     public function getById(
         string $id
     ): ?FamilyMember;
+
+    public function getByHeadOfFamilyId(
+        string $headOfFamilyId
+    ): SupportCollection;
 
     public function create(
         array $data
