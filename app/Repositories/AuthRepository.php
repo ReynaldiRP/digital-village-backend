@@ -24,7 +24,7 @@ class AuthRepository implements AuthRepositoryInterface
         $token = $user->createToken(
             'auth_token',
             $permissions->toArray(),
-            Carbon::now()->addMinutes(config('sanctum.expiration'))
+            Carbon::now()->addMinutes(config('sanctum.expiration')) 
         )->plainTextToken;
 
         return response()->json([

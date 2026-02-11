@@ -82,6 +82,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
                             'occupation' => $member->occupation,
                             'identity_number' => $member->identify_number,
                             'age' => $member->birth_date ? \Carbon\Carbon::parse($member->birth_date)->age : null,
+                            'profile_picture' => asset('storage/' . $member->profile_picture),
                         ];
                     })
                 ];
@@ -104,7 +105,7 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface
 
 
             $familyMember = new FamilyMember();
-            $familyMember->head_of_family_id = $data['head_of_family_id'];
+            $familyMember->head_of_family_id = $data['head_of_family_id'];;
             $familyMember->user_id = $user->id;
             $familyMember->profile_picture = $data['profile_picture']->store('assets/family-members', 'public');
             $familyMember->identify_number = $data['identify_number'];
