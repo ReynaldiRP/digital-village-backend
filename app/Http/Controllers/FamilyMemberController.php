@@ -239,7 +239,7 @@ class FamilyMemberController extends Controller implements HasMiddleware
             return ResponseHelper::jsonResponse(
                 true,
                 'Berhasil menghapus anggota keluarga',
-                new FamilyMemberResource($familyMember),
+                null,
                 200
             );
         } catch (\Exception $e) {

@@ -62,6 +62,7 @@ class FamilyMemberStoreRequest extends FormRequest
             'user_id.exists'           => 'ID Pengguna tidak ditemukan.',
             'user_id.unique'           => 'ID Pengguna sudah terdaftar sebagai anggota keluarga.',
             'profile_picture.max'      => 'Foto Profil maksimal berukuran 2MB.',
+            'profile_picture.mimes' => 'Foto Profil harus berupa file gambar dengan format png, jpg, jpeg, atau gif.',
             'identify_number.unique'   => 'Nomor Identitas sudah digunakan.',
         ];
     }
